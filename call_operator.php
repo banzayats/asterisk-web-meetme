@@ -90,14 +90,15 @@ if ($_SESSION['auth'] && $invite_num !="" && $data != "" && $bookid != "") {
 		if ( CHAN_TYPE == "Local") {
 			$channel = CHAN_TYPE . "/" . $invite_num . "@" . LOCAL_CONTEXT . "/n" ;
 		} else {
-			if ($invite_num==100) {
-				$channel = "SIP/" . $invite_num ;
-			} elseif (preg_match("/^83532(\d{6})/",$invite_num,$tmp)) {
-				$channel = "SIP/oren-kamailio/" . $tmp[1] ;
-			} else {
-				//$channel = "SIP/buz-cisco/#2" . $invite_num ;
-				$channel = "SIP/oren-kamailio/" . $invite_num ;
-			}
+			//if ($invite_num==100) {
+			//	$channel = "SIP/" . $invite_num ;
+			//} elseif (preg_match("/^83532(\d{6})/",$invite_num,$tmp)) {
+			//	$channel = "SIP/oren-kamailio/" . $tmp[1] ;
+			//} else {
+			//	//$channel = "SIP/buz-cisco/#2" . $invite_num ;
+			//	$channel = "SIP/oren-kamailio/" . $invite_num ;
+			//}
+			$channel = "SIP/asterisk/" . $invite_num ;
 		}
 		$application = "MeetMe";
 		$data = $data;
