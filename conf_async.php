@@ -86,7 +86,7 @@ if (isset($confno)){
         if ($showConference==1) {
                 // Conference exists and user is owner -> get Data	
 		$res = $as->Command('meetme list '.$confno.' concise');
-		$line= split("\n", $res['data']);
+		$line= explode("\n", $res['data']);
 	
 		$nbuser=0;
 		foreach ($line as $myline){
