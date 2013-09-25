@@ -1,0 +1,10 @@
+-- Database: `meetme`
+CONNECT meetme;
+ALTER TABLE `booking` CHANGE `roomNo` `confno` varchar(30);
+ALTER TABLE `booking` CHANGE `roomPass` `pin` varchar(30);
+ALTER TABLE `booking` CHANGE `silPass` `adminpin` varchar(30);
+ALTER TABLE `booking` CHANGE `uFlags` `opts` varchar(10);
+ALTER TABLE `booking` CHANGE `aFlags` `adminopts` varchar(10);
+ALTER TABLE `booking` CHANGE `endTime` `endtime` datetime;
+ALTER TABLE `booking` CHANGE `startTime` `starttime` datetime;
+ALTER TABLE `booking` ADD `recordingfilename` varchar(128);

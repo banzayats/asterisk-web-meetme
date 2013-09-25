@@ -1,0 +1,10 @@
+; When using RealTime enabled app_meetme, no special
+; configuration is needed for extensions.
+;
+
+[default]
+;Use a DiD or internal extension in place of 1995
+exten => 1995,1,Answer
+exten => 1995,n,meetme()
+exten => 1995,n,Hangup
+

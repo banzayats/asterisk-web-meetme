@@ -1,0 +1,60 @@
+mysql> describe booking;
++-------------------+------------------+------+-----+---------------------+----------------+
+| Field             | Type             | Null | Key | Default             | Extra          |
++-------------------+------------------+------+-----+---------------------+----------------+
+| bookId            | int(10) unsigned | NO   | PRI | NULL                | auto_increment |
+| clientId          | int(10) unsigned | YES  |     | 0                   |                |
+| confno            | varchar(30)      | YES  |     | 0                   |                |
+| pin               | varchar(30)      | NO   |     | 0                   |                |
+| adminpin          | varchar(30)      | NO   |     | 0                   |                |
+| starttime         | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| endtime           | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| dateReq           | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| dateMod           | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| maxUser           | varchar(30)      | NO   |     | 10                  |                |
+| status            | varchar(30)      | NO   |     | A                   |                |
+| confOwner         | varchar(30)      | NO   |     |                     |                |
+| confDesc          | varchar(100)     | NO   |     |                     |                |
+| adminopts         | varchar(10)      | NO   |     |                     |                |
+| opts              | varchar(10)      | NO   |     |                     |                |
+| sequenceNo        | int(10) unsigned | YES  |     | 0                   |                |
+| recurInterval     | int(10) unsigned | YES  |     | 0                   |                |
+| recordingfilename | varchar(128)     | YES  |     | NULL                |                |
++-------------------+------------------+------+-----+---------------------+----------------+
+18 rows in set (0.00 sec)
+
+mysql> describe cdr;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| bookId   | varchar(16) |      |     |         |       |
+| duration | varchar(12) |      |     |         |       |
+| CIDnum   | varchar(32) | YES  |     | NULL    |       |
+| CIDname  | varchar(32) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> describe participants;
++---------+---------+------+-----+---------+----------------+
+| Field   | Type    | Null | Key | Default | Extra          |
++---------+---------+------+-----+---------+----------------+
+| id      | int(11) |      | PRI | NULL    | auto_increment |
+| user_id | int(11) |      |     | 0       |                |
+| book_id | int(10) |      |     | 0       |                |
++---------+---------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> describe user;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      |      | PRI | NULL    | auto_increment |
+| email      | varchar(100) |      |     |         |                |
+| password   | varchar(25)  | YES  |     | NULL    |                |
+| first_name | varchar(50)  | YES  |     | NULL    |                |
+| last_name  | varchar(50)  | YES  |     | NULL    |                |
+| telephone  | varchar(15)  | YES  |     | NULL    |                |
+| admin      | varchar(5)   |      |     | User    |                |
++------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+

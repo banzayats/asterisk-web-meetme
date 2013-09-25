@@ -1,0 +1,37 @@
+------------------------------------------------------------------------
+r260 | dan_austin | 2010-02-17 11:45:15 -0800 (Wed, 17 Feb 2010) | 1 line
+
+More unassigned variables cleaned up, fix authentication seeming to require two logons.  Make [Un]Check_All work on Firefox.  Drop unused columns from db scripts and disable verbose debugging by default
+------------------------------------------------------------------------
+r263 | dan_austin | 2010-02-22 10:51:33 -0800 (Mon, 22 Feb 2010) | 1 line
+
+Really fix [Un]Check_All for Firefox
+------------------------------------------------------------------------
+r270 | dan_austin | 2010-07-07 13:24:32 -0700 (Wed, 07 Jul 2010) | 1 line
+
+Russian translation
+------------------------------------------------------------------------
+r273 | dan_austin | 2010-10-20 15:29:22 -0700 (Wed, 20 Oct 2010) | 1 line
+
+Add minutes used to Reports.  Alter how reports detect used conferences to reduce DB load.  Better support for 'Requests Floor' events. Alter sample extensions.conf to eliminate empty CDR records.
+------------------------------------------------------------------------
+r274 | dan_austin | 2010-10-20 15:35:39 -0700 (Wed, 20 Oct 2010) | 1 line
+
+Update db scripts.
+------------------------------------------------------------------------
+r277 | dan_austin | 2011-03-08 10:11:31 -0800 (Tue, 08 Mar 2011) | 1 line
+
+Update readme and remove pagination from monitor code
+------------------------------------------------------------------------
+r279 | dan_austin | 2011-03-16 09:48:39 -0700 (Wed, 16 Mar 2011) | 1 line
+
+Additional logging and table configuration options in app_cbmysql
+------------------------------------------------------------------------
+r281 | dan_austin | 2011-10-20 09:31:55 -0700 (Thu, 20 Oct 2011) | 1 line
+
+Merge to trunk
+------------------------------------------------------------------------
+r284 | dan_austin | 2011-11-28 12:16:32 -0800 (Mon, 28 Nov 2011) | 1 line
+
+Unify conf_actions and clean-up monitor code, restore missing recording filename support in the database
+------------------------------------------------------------------------

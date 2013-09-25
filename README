@@ -1,0 +1,278 @@
+Managed conferencing solution using 
+Asterisk, Web-MeetMe and a database-driven scheduler
+by Dan Austin <dan_austin@fitawi.com>
+================================================================
+
+** Background
+	It has been suggested that conferencing in general and 
+MeetMe specifically represent the killer app to drive Asterisk
+integrations.  While MeetMe does provide a solid foundation for
+audio conferencing, there is a need for a management interface
+that allows system administrators, conference administrators,
+and system users to schedule, monitor and manage conferences.
+
+** Security concerns
+        It is strongly recommended that register_globals be
+turned off.  The Web-MeetMe UI no longer needs this feature
+turned on, and if it is turned on the system may be vulnerable
+to XSS.
+
+** Using Web-MeetMe with Asterisk 1.6 or newer
+	Starting with Asterisk 1.6, the logic to enforce
+conference start times, end times and resource limits have
+been moved into app_meetme.  This means that this package
+no longer needs app_cbmysql, however an updated verion
+is included for sites that already use WMM and cannot
+convert to using RealTime.  It is highly recommended that
+new installations use RealTime and not app_cbmysql.
+
+** The tools
+
+Web-MeetMe
+	Web-MeetMe is a collection of PHP pages that leverage
+the database for scheduling and the Asterisk Manager interface
+to monitor and control active conferences.
+
+	The scheduler currently supports these features:
+		+ Conference number conflict avoidance
+		+ Recurring conferences 
+		  * Daily, weekly or bi-weekly 
+		+ Enforces a user password if a admin password 
+		  is set
+		+ Seperate views for past, current and future
+		  conferences
+		+ Editing future conferences
+		  * Includes a series of conferences
+		+ Deleting past conferences
+		+ CDR-like view of past conferences
+		  * Includes a link to conference recordings
+		+ One click features to-
+		  * Extend an active conference (time)
+		  * Kick out all participants
+		  * Out-call to include participants 
+		+ Optional early join features
+		  * fuzzystart allows a caller to enter a
+		    room early (in seconds, set in cbmysql.conf)
+		  * earlyalert notifies a call that their 
+		    conference has not yet started, if they
+		    enter a valid conference number and the
+		    conference is scheduled to start soon.
+		    (in seconds, set in cbmysql.conf)
+
+** Installation
+* Dependencies
+	-  Asterisk 1.6 or later
+		!! Version 1.6.2.7 is the first suitable version
+		!! Version 1.8.0 is recommended for full functionality
+		!! res_odbc
+		!! app_meetme configured to use RealTime
+		!! cdr_adaptive_odbc is recommended for CDR functionality
+	-  Database with ODBC driver
+	-  PHP 4.3 or later
+		!! Reports depend on mod_gd and GD-2.0.28
+		!! or later
+		!! PEAR::DB (php-pear)
+
+* Tweak meetme.conf
+	The default meetme.conf from Asterisk 1.6.2 or later has
+the basics in place.  One exception is that logmembercount should
+be set to 'no', as that feature of Realtime MeetMe conference is
+not used by WMM.
+
+* Configure ODBC
+	Configure /etc/odbc.ini and add a section similar to this:
+
+[MySQL-Asterisk]
+Description     = ODBC for MySQL
+Driver          = MySQL
+Server          = 127.0.0.1
+Database        = meetme
+Port            = 3306
+Socket          = /tmp/mysql.sock
+Option          =
+Stmt            =
+Trace           = yes
+TraceFile       = /tmp/odbc.log
+
+
+	Configure /etc/asterisk/res_odbc.conf and add a section similar
+to this:
+
+[meetme]
+dsn => MySQL-Asterisk
+username => <db-username>
+password => <db-password>
+pre-connect => yes
+
+	Add the following line to /etc/asterisk/extconfig.conf:
+
+meetme => odbc,meetme,booking
+
+	For CDR logs configure /etc/asterisk/cdr_adaptive_odbc.conf:
+
+[wmm]
+connection=meetme	;Note that this matches res_odbc.conf
+table=cdr
+
+	 In /etc/asterisk/cdr.conf confirm that endbeforehexten is set to 'no'
+
+* Setup the database
+	Create a table called booking in your database.  The
+table is described in ./cbmysql/db-tables-v7.txt
+
+	You can upgrade your database from an earlier install
+by using this command:
+
+mysql < ./cbmysql/upgrade-db.txt
+
+	There is also a use the rollback-db.txt file to
+revert the database to be compatible with WMM 3.X if you
+need to downgrade.
+
+	If you will be using a SQL database to store user 
+accounts instead of using an LDAP service, you can use this 
+command to setup the initial administrator account to logon to 
+WMM:
+mysql < cbmysql/db-admin-user-create.txt
+
+
+* Install Web-MeetMe
+	Download the latest Web-MeetMe tgz file from
+http://www.sf.net/projects/web-meetme and extract it to your webservers
+document root.
+
+	Modify the ../web-meetme/lib/defines.php to match you
+database settings.
+
+	Copy ../web-meetme/phpagi/phpagi.example.conf to 
+/etc/asterisk and modify it to match the settings in your
+manager.conf
+
+********************************************************* 
+You must have an account in /etc/asterisk/manager.conf
+similar to this:
+
+[MeetMe]
+secret = {pick-a-password}
+read = call
+write = command,originate
+
+********************************************************* 
+
+
+	If you intend to use the authentication functions,
+it is strongly recommended that you use SSL and force all
+conenctions to the Web-MeetMe pages to use HTTPS.
+
+* LDAP or Active Directory integration
+	Edit ./lib/defines and set the AUTH_TYPE to adLDAP.
+Set the ADMIN_GROUP to appropriate list, the default is
+"Domain Admins", but you might not want the network folks
+controlling your telephony systems.  Optionally you can
+chanege the browser session timeout.
+
+	Edit ./lib/adLDAP and replace all instances of
+"yourdomain" and "yourserver" with the values for your
+network.
+
+* Usage
+	If all of the steps have been followed, you should be
+able to open your browser, connect to the Web-MeetMe page and
+schedule a conference.  A new conference start time defaults
+to the time it is scheduled, so modify it if needed.  Any
+required fields that are left blank will be auto-generated.
+Note the conference room number and password.
+
+	Dial the number you have assigned for conferencing, and
+try the conference you have just added.  If the time and password
+are correct, you will be joined to the conference.
+
+	You can now use the Web-Meetme monitor function to manage
+your conference.
+
+** Credits
+Areski for his fantastic Web-MeetMe gui which proved extremely 
+easy to extend.
+
+Mike Clark for UI enhancements and the database features to host
+user accounts.
+
+
+And special thanks to everyone in the Asterisk community.
+
+*********************************
+тестировалось на Asterisk 1.8.7.1
+не требуется компиляция app_cbmysql
+ODBC не используется
+механизм реалтайм на mysql
+
+Добавлен функционал:
+* Вызов по адресной книге
+* При входящих на конференцию из вне, по номеру А мачится имя по той же адресной книге
+* мелкие правки интерфейса, структуры таблиц БД
+
+
+конфиги Asterisk
+###
+$ cat /etc/asterisk/meet1/extconfig.conf
+[settings]
+meetme => mysql,general,booking
+
+###
+$ cat /etc/asterisk/meet1/res_config_mysql.conf
+[general]
+dbhost = 127.0.0.1
+dbname = meet1
+dbuser = meetme1
+dbpass = jdweWWFEai345udwd
+dbport = 3306
+dbcharset = utf8
+
+###
+$ cat /etc/asterisk/meet1/cdr_mysql.conf
+[global]
+hostname=localhost
+dbname=meet1
+table=cdr
+password=jdweWWFEai345udwd
+user=meetme1
+port=3306
+dbcharset = utf8
+
+[columns]
+alias start => calldate
+
+###
+$ cat /etc/asterisk/meet1/extensions.conf
+[meetme_out]
+exten => _X.,1,NoOP( ${CALLERID(name)} ${CALLERID(num)} )
+exten => _X.,n,Dial(SIP/test/${EXTEN})
+
+[meetme]
+exten => s,1,MeetMe()
+exten => h,1,ExecIf(0${MEETMEBOOKID}?NoOp(${CALLERID(name)}))
+exten => h,n,Set(CDR(userfield)=${MEETMEBOOKID})
+
+[inbound]
+exten => _X!,1,GoSubIf(0${CALLERID(num)}?sub-cidlookup,s,1)
+exten => _X!,n,NoOP( ${CALLERID(name)} ${CALLERID(num)} )
+exten => _X!,n,Goto(meetme,s,1)
+
+[sub-cidlookup]
+exten => s,1,GotoIf($[ ${LEN(${CALLERID(num)})} = 10 ]?add8)
+exten => s,n,GotoIf($[ $[ ${LEN(${CALLERID(num)})} = 11 ] & $[ "${CALLERID(num):0:1}" = "8" ] ]?end)
+exten => s,n,ExecIf( $[${LEN(${CALLERID(num)})} = 6 ]?Set(CALLERID(num)=83532${CALLERID(num)}) )
+exten => s,n,ExecIf( $[${LEN(${CALLERID(num)})} = 5 ]?Set(CALLERID(num)=835342${CALLERID(num)}) )
+exten => s,n,Goto(end)
+exten => s,n(add8),Set(CALLERID(num)=8${CALLERID(num)})
+exten => s,n(end),Set(CALLERID(name)=${CALLERID(num)})
+exten => s,n,MYSQL(Connect connid localhost meetme1 jdweWWFEai345udwd meet1)
+;exten => s,n,MYSQL(Query resultid ${connid} SET NAMES utf8)
+exten => s,n,MYSQL(Query resultid ${connid} SELECT name,rx,tx FROM addressbook WHERE number = '${CALLERID(num)}' LIMIT 1)
+exten => s,n,MYSQL(Fetch fetchid ${resultid} NAMETEMP VOLRX VOLTX)
+exten => s,n,MYSQL(Clear ${resultid})
+exten => s,n,MYSQL(Disconnect ${connid})
+exten => s,n,ExecIf($["foo${VOLRX}" != "foo" & "${VOLRX}" != "0"]?Set(VOLUME(RX)=${VOLRX}))
+exten => s,n,ExecIf($["foo${VOLTX}" != "foo" & "${VOLTX}" != "0"]?Set(VOLUME(TX)=${VOLTX}))
+exten => s,n,ExecIf($["foo${NAMETEMP}" != "foo"]?Set(CALLERID(name)=${NAMETEMP}))
+exten => s,n,Return()

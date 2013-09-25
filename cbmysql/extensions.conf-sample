@@ -1,0 +1,30 @@
+[meetme_out]
+exten => _X.,1,NoOP( ${CALLERID(name)} ${CALLERID(num)} )
+exten => _X.,n,Dial(SIP/test/${EXTEN})
+
+[meetme]
+exten => s,1,MeetMe()
+exten => h,1,ExecIf(0${MEETMEBOOKID}?NoOp(${CALLERID(name)}))
+exten => h,n,Set(CDR(userfield)=${MEETMEBOOKID})
+
+[inbound]
+exten => _X!,1,GoSubIf(0${CALLERID(num)}?sub-cidlookup,s,1)
+exten => _X!,n,NoOP( ${CALLERID(name)} ${CALLERID(num)} )
+exten => _X!,n,Goto(meetme,s,1)
+
+[sub-cidlookup]
+exten => s,1,GotoIf($[ ${LEN(${CALLERID(num)})} = 10 ]?add8)
+exten => s,n,GotoIf($[ $[ ${LEN(${CALLERID(num)})} = 11 ] & $[ "${CALLERID(num):0:1}" = "8" ] ]?end)
+exten => s,n,NoOP(If( $[${LEN(${CALLERID(num)})} = 6 ]?${CALLERID(num)}=83532${CALLERID(num)}))
+exten => s,n,NoOP(If( $[${LEN(${CALLERID(num)})} = 5 ]?${CALLERID(num)}=835342${CALLERID(num)}))
+exten => s,n,Goto(end)
+exten => s,n(add8),Set(CALLERID(num)=8${CALLERID(num)})
+exten => s,n(end),Set(CALLERID(name)=${CALLERID(num)})
+exten => s,n,MYSQL(Connect connid localhost meetme1 jdweWWFEai345udwd meet1)
+;exten => s,n,MYSQL(Query resultid ${connid} SET NAMES utf8)
+exten => s,n,MYSQL(Query resultid ${connid} SELECT name FROM addressbook WHERE number = '${CALLERID(num)}' LIMIT 1)
+exten => s,n,MYSQL(Fetch fetchid ${resultid} NAMETEMP)
+exten => s,n,MYSQL(Clear ${resultid})
+exten => s,n,MYSQL(Disconnect ${connid})
+exten => s,n,ExecIf($["foo${NAMETEMP}" != "foo"]?Set(CALLERID(name)=${NAMETEMP}))
+exten => s,n,Return()
