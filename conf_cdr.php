@@ -18,16 +18,14 @@ $FG_TABLE_NAME=DB_TABLECDR;
 // First Name of the column in the html page, second name of the field
 $FG_TABLE_COL = array();
 
-$FG_TABLE_COL[]=array (_("Caller Name"), "CIDname", "50%", "middle", "", "30");
-$FG_TABLE_COL[]=array (_("Telephone"), "CIDnum", "25%", "middle", "", "30");
+$FG_TABLE_COL[]=array (_("Caller Name"), "clid", "50%", "middle", "", "30");
+$FG_TABLE_COL[]=array (_("Telephone"), "src", "25%", "middle", "", "30");
 $FG_TABLE_COL[]=array (_("Duration"), "duration", "25%", "middle", "", "30");
 
-//$FG_TABLE_DEFAULT_ORDER = "CIDname";
 $FG_TABLE_DEFAULT_ORDER = "clid";
 $FG_TABLE_DEFAULT_SENS = "ASC";
 
 // This Variable store the argument for the SQL query
-//$FG_COL_QUERY='CIDname, CIDnum, duration';
 $FG_COL_QUERY='clid, src, duration';
 
 
@@ -57,10 +55,8 @@ if ( !isset ($order) || !isset ($sens) ){
 
 $now=getConfDate();
 if (isset($bookId)){
-	//$FG_TABLE_CLAUSE = "bookId='$bookId'";
 	$FG_TABLE_CLAUSE = "userfield='$bookId'";
 }	
-	//$result = $db->query("SET NAMES utf8");
 	$i = 0;
 	$query = "SELECT $FG_COL_QUERY FROM $FG_TABLE_NAME WHERE $FG_TABLE_CLAUSE";
 	$result = $db->query($query);
