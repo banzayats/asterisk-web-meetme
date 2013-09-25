@@ -1,9 +1,9 @@
 <?php
 include_once 'DB.php';
-$database = 'meet1';
+$database = 'meetme';
 $host = 'localhost';
-$username = 'meetme1';
-$password = 'jdweWWFEai345udwd';
+$username = 'meetmeuser';
+$password = 'meetmepass';
 $dsn = "mysql://$username:$password@$host/$database";
 $db = DB::connect($dsn);
 if (DB::isError($db))

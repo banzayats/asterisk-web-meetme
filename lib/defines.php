@@ -10,7 +10,7 @@ include(dirname(__FILE__)."/../locale.php");
 //Make sure to set WEBROOT to the exact URL
 //Users will use to access WMM
 define ("WEBROOT", "/meet1/");
-define ("FSROOT", "/var/www/meet1/");
+define ("FSROOT", "/var/www/html/meet1/");
 define ("LIBDIR", FSROOT."lib/");
 
 //GUI title
@@ -65,9 +65,10 @@ define ("USE_24H", "YES");
 //define ("CHAN_TYPE", "Local"); //Use Local to let dialplan decide which chan
 define ("CHAN_TYPE", "SIP"); //Use Local to let dialplan decide which chan
 define ("OUT_PEER", "100"); // Use this if not using CHAN_TYPE Local TRUNK
-define ("LOCAL_CONTEXT", "meetme_out"); //Select a context to place the call from
+//define ("LOCAL_CONTEXT", "meetme_out"); //Select a context to place the call from
+define ("LOCAL_CONTEXT", "default"); //Select a context to place the call from
 define ("OUT_CONTEXT", "meetme"); //Select a context to place the call from
-define ("OUT_CALL_CID", "Meet Admin <2012>"); // Caller ID for Invites ;; Ignore
+define ("OUT_CALL_CID", "Meet Admin <7970>"); // Caller ID for Invites ;; Ignore
 
 //Standard flags for Users and Admins
 define ("SAFLAGS", "aAsM");
@@ -76,7 +77,7 @@ $Mod_Options = array(array(_("Announce"), "I"), array(_("Record"), "r"));
 $User_Options = array(array(_("Announce"), "I"), array(_("Listen Only"), "m"), array(_("Wait for Leader"), "w"));
 
 //Require conference PIN (passwords)
-define ("PASSWORD_OPTION", "NO");
+define ("PASSWORD_OPTION", "YES");
 
 //Change conference End Time on a 'End Now' click
 //define ("FORCE_END", "YES");
@@ -84,7 +85,7 @@ define ("PASSWORD_OPTION", "NO");
 //Mailer type: 
 // CLIENT to use mailto: and default user mail client
 // SERVER to use the server's mailer
-define ("MAILER", "CLIENT");
+define ("MAILER", "SERVER");
 include ("email_body.php");
 
 //Avatar definitions
@@ -130,7 +131,7 @@ function contact(){
 	<td><em><strong>Developer Website: </strong></em><a href="<?php _("Developer Website"); ?>">Web-MeetMe</a></td>
 	</tr>
 	<tr>
-	<td><br><img src="images/<?=PBX_ICON?>"></td>
+	<td><br><img src="images/<?php echo PBX_ICON;?>"></td>
 	<tr>
 	<td><h2>User details ...</h2></td>
 	</tr>
@@ -139,7 +140,7 @@ function contact(){
 	</tr>
 	</table>
 <br><br>
-	<?
+	<?php
 }
 
 ?>
