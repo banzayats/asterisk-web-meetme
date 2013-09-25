@@ -274,7 +274,7 @@ if (isset($add)){
 					$result = $db->query($query);
 					$query = "SELECT id FROM user WHERE email =? ";
 					$data = array($email[$j]);
-					$result = $db->query($query);
+					$result = $db->query($query, $data);
 					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 					$puid = $row['id'];
 				}
