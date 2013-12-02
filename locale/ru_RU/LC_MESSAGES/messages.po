@@ -49,6 +49,12 @@ msgstr "Вызов установлен"
 msgid "System error, try again later"
 msgstr "Системная ошибка, попробуйте еще раз"
 
+msgid "Return and invite another"
+msgstr "Вернуться для приглашения следующего"
+
+msgid "Close window"
+msgstr "Закрыть окно"
+
 msgid "CHANNEL"
 msgstr "КАНАЛ"
 
@@ -104,6 +110,18 @@ msgstr "Необходим пин-код модератора, если вклю
 
 msgid "You must reserve at least 2 seats in this conference"
 msgstr "Вы должны зарезервировать хотя бы два места в конференции"
+
+msgid "The requested number of participants"
+msgstr "Запрашиваемое количество участников"
+
+msgid "would exceed the system limit of"
+msgstr "превышает лимит"
+
+msgid "for this time period"
+msgstr "для заданного промежутка времени"
+
+msgid "Available seats"
+msgstr "Доступное количество участников"
 
 msgid "Your conference is not unique. Please a different start time or conference ID"
 msgstr "Ваша конференция не уникальная. Пожалуйста выберите другое время или номер конференции"
@@ -214,14 +232,14 @@ msgstr "Участники"
 msgid "Dial In Info"
 msgstr "Информация по подключению"
 
+msgid "Additional Info"
+msgstr "Дополнительная информация"
+
 msgid "You will then prompted for the conference and pin numbers"
-msgstr "You will then prompted for the conference and pin numbers (!!!)"
+msgstr "После дозвона вас попросят ввести номер и пароль конференции"
 
-msgid "This conference will be recorded. After the conference is complete"
-msgstr "Эта конференция будет записана. После окончания конференции"
-
-msgid "you may listen to the recording by"
-msgstr "вы можете прослушать запись"
+msgid "This conference will be recorded. After the conference is complete, you may listen to the recording by"
+msgstr "Эта конференция будет записана. После окончания конференции вы можете прослушать запись"
 
 msgid "Click"
 msgstr "Перейдя по ссылке"
@@ -250,7 +268,9 @@ msgstr "Пин-код"
 #: meetme_control.php
 
 msgid "Communicate and control your audience."
-msgstr "Веб-интерфейс для создания и управления многоканальными конференциями в Asterisk PBX."
+msgstr "Конференц-мост (система аудиоконференций) - это программно аппаратный комплекс для проведения аудиоконференций, сделанный на основе платформы Asterisk. "
+
+#msgstr "Веб-интерфейс для создания и управления многоканальными конференциями в Asterisk PBX."
 
 msgid "Select the room number that you want to handle"
 msgstr "Выберите комнату конференции, которой вы хотите управлять"
@@ -303,6 +323,27 @@ msgstr "Макс. кол-во участников"
 msgid "Invite"
 msgstr "Вызвать"
 
+msgid "Invite from predefined list"
+msgstr "Пригласить из списка"
+
+msgid "Select list number"
+msgstr "Укажите номер списка"
+
+msgid "List #1"
+msgstr "Список №1"
+
+msgid "List #2"
+msgstr "Список №2"
+
+msgid "List #3"
+msgstr "Список №3"
+
+msgid "List #4"
+msgstr "Список №4"
+
+msgid "Add row"
+msgstr "Добавить строку"
+
 msgid "Invite to conference"
 msgstr "Вызвать в конференцию"
 
@@ -330,10 +371,10 @@ msgstr "Поиск конференции"
 msgid "Enter the details about the user to add"
 msgstr "Введите данные о пользователе"
 
-msgid "First Name"
+msgid "First name"
 msgstr "Имя"
 
-msgid "Last Name"
+msgid "Last name"
 msgstr "Фамилия"
 
 msgid "User Email"
@@ -522,13 +563,11 @@ msgstr "Пожалуйста свяжитесь"
 
 #: lib/email_body.php:31 lib/email_body.php:47
 msgid "at"
-msgstr "в"
+msgstr "по"
 
-#: lib/email_body.php:31 lib/email_body.php:47
 msgid "for assistance"
 msgstr "для консультации"
 
-#: lib/header.php:5
 msgid "Information"
 msgstr "Информация"
 
@@ -560,10 +599,176 @@ msgstr "Управление пользователями"
 msgid "Reports"
 msgstr "Отчеты"
 
-#: lib/header.php:39
 msgid "About"
 msgstr "О проекте"
 
-#: lib/header.php:45
 msgid "Log-off"
 msgstr "Выйти"
+
+msgid "Continue"
+msgstr "Продолжить"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Check All"
+msgstr "Выделить все"
+
+msgid "Uncheck All"
+msgstr "Снять выделение"
+
+msgid "Delete Selected"
+msgstr "Удалить отмеченные"
+
+msgid "Email participants"
+msgstr "Разослать участникам"
+
+msgid "Starts"
+msgstr "Начало"
+
+msgid "Ends"
+msgstr "Конец"
+
+msgid "Disconnected Participants"
+msgstr "Участники, которые отключились"
+
+msgid "Personal lists"
+msgstr "Персональные списки"
+
+msgid "List #"
+msgstr "Список №"
+
+msgid "Submit lists"
+msgstr "Подтвердить изменения списков"
+
+msgid "Lists successfully updated"
+msgstr "Списки успешно обновлены"
+
+msgid "Extend by 10 minutes"
+msgstr "Продлить на 10 минут"
+
+msgid "Finish conference"
+msgstr "Завершить конференцию"
+
+msgid "Invite participants"
+msgstr "Пригласить участников"
+
+msgid "Invite participants from list"
+msgstr "Пригласить участников по списку"
+
+msgid "Invite all"
+msgstr "Пригласить всех"
+
+msgid "Filename"
+msgstr "Имя файла"
+
+msgid "Please select xls file from your PC"
+msgstr "Пожалуйста загрузите файл в формате EXCEL с вашего компьютера"
+
+msgid "Upload"
+msgstr "Загрузить"
+
+msgid "Upload list"
+msgstr "Загрузить список"
+
+msgid "Invalid file"
+msgstr "Недействительный формат файла"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Unacceptable search string (minimum length - three characters)"
+msgstr "Недопустимое выражение для поиска (минимальная длина три символа)"
+
+msgid "Unacceptable name"
+msgstr "Недопустимое имя"
+
+msgid "Unacceptable number"
+msgstr "Недопустимый номер"
+
+msgid "Itrusion detected! The data of the current session transferred to the administrator"
+msgstr "Распознана попытка взлома. Данные текущей сессии переданы администратору"
+
+msgid "The record is deleted"
+msgstr "Запись удалена"
+
+msgid "The record has added"
+msgstr "Запись добавлена"
+
+msgid "Error deleting record"
+msgstr "Ошибка удаления записи"
+
+msgid "Error adding record"
+msgstr "Ошибка добавления записи"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Surname"
+msgstr "Фамилия"
+
+msgid "Alternative telephone"
+msgstr "Альтернативный телефон"
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Lists"
+msgstr "Списки"
+
+msgid "Main list"
+msgstr "Основной список"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Records found"
+msgstr "Найдено записей"
+
+msgid "Telephone book"
+msgstr "Телефонная книга"
+
+msgid "days"
+msgstr "дня"
+
+msgid "weeks"
+msgstr "недели"
+
+msgid "Caller Name"
+msgstr "Имя звонившего"
+
+msgid "Duration"
+msgstr "Продолжительность"
+
+msgid "Mode"
+msgstr "Опции"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Update Conference"
+msgstr "Обновить конференцию"
+
+msgid "Open manual"
+msgstr "Открыть краткое руководство"
+
+msgid "Report a bug"
+msgstr "Сообщить об ошибке"
+
+msgid "Call"
+msgstr "Вызвать"
+
+msgid "Call again"
+msgstr "Вызвать заново"
+
+msgid "No password"
+msgstr "Без пароля"
+
+msgid "Active"
+msgstr "Подключен"
+
+msgid "Not&nbsp;active"
+msgstr "Отключен"
+
+msgid "New"
+msgstr "Новый"
