@@ -1,0 +1,10 @@
+-- Database: `meetme`
+-- 
+
+-- 
+-- Create the initial admin user for sqldb authentication
+-- 
+
+INSERT INTO user 
+	(first_name, last_name, email, telephone, password, admin) 
+	VALUES ('Admin', 'MeetMe', 'admin@localhost', '9999', '6c9b8b27dea1ddb845f96aa2567c6754', 'Admin');

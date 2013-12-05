@@ -1,0 +1,118 @@
+mysql> describe booking;
++-------------------+------------------+------+-----+---------------------+----------------+
+| Field             | Type             | Null | Key | Default             | Extra          |
++-------------------+------------------+------+-----+---------------------+----------------+
+| bookId            | int(10) unsigned | NO   | PRI | NULL                | auto_increment |
+| clientId          | int(10) unsigned | YES  |     | 0                   |                |
+| confno            | varchar(30)      | YES  |     | 0                   |                |
+| pin               | varchar(30)      | NO   |     | 0                   |                |
+| adminpin          | varchar(30)      | NO   |     | 0                   |                |
+| starttime         | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| endtime           | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| dateReq           | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| dateMod           | datetime         | NO   |     | 0000-00-00 00:00:00 |                |
+| maxusers          | varchar(30)      | NO   |     | 10                  |                |
+| status            | varchar(30)      | NO   |     | A                   |                |
+| confOwner         | varchar(30)      | NO   |     |                     |                |
+| confDesc          | varchar(100)     | NO   |     |                     |                |
+| adminopts         | varchar(10)      | NO   |     |                     |                |
+| opts              | varchar(10)      | NO   |     |                     |                |
+| sequenceNo        | int(10) unsigned | YES  |     | 0                   |                |
+| recurInterval     | int(10) unsigned | YES  |     | 0                   |                |
+| recordingfilename | varchar(128)     | YES  |     | NULL                |                |
+| members           | int(11)          | NO   |     | 0                   |                |
++-------------------+------------------+------+-----+---------------------+----------------+
+19 rows in set (0.00 sec)
+
+mysql> describe cdr;
++-------------+------------------+------+-----+---------------------+----------------+
+| Field       | Type             | Null | Key | Default             | Extra          |
++-------------+------------------+------+-----+---------------------+----------------+
+| id          | int(11) unsigned | NO   | PRI | NULL                | auto_increment |
+| calldate    | datetime         | NO   | MUL | 0000-00-00 00:00:00 |                |
+| clid        | varchar(80)      | NO   |     |                     |                |
+| src         | varchar(80)      | NO   | MUL |                     |                |
+| dst         | varchar(80)      | NO   | MUL |                     |                |
+| dcontext    | varchar(80)      | NO   |     |                     |                |
+| channel     | varchar(80)      | NO   |     |                     |                |
+| dstchannel  | varchar(80)      | NO   |     |                     |                |
+| lastapp     | varchar(80)      | NO   |     |                     |                |
+| lastdata    | varchar(80)      | NO   |     |                     |                |
+| duration    | int(11)          | NO   |     | 0                   |                |
+| billsec     | int(11)          | NO   |     | 0                   |                |
+| disposition | varchar(45)      | NO   |     |                     |                |
+| amaflags    | int(11)          | NO   |     | 0                   |                |
+| accountcode | varchar(20)      | NO   | MUL |                     |                |
+| uniqueid    | varchar(32)      | NO   | MUL |                     |                |
+| userfield   | varchar(255)     | NO   |     |                     |                |
++-------------+------------------+------+-----+---------------------+----------------+
+17 rows in set (0.00 sec)
+
+mysql> describe participants;
++---------+---------+------+-----+---------+----------------+
+| Field   | Type    | Null | Key | Default | Extra          |
++---------+---------+------+-----+---------+----------------+
+| id      | int(11) | NO   | PRI | NULL    | auto_increment |
+| user_id | int(11) | NO   |     | 0       |                |
+| book_id | int(10) | NO   |     | 0       |                |
++---------+---------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> describe user;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| email      | varchar(100) | NO   |     |         |                |
+| password   | varchar(50)  | YES  |     | NULL    |                |
+| first_name | varchar(50)  | YES  |     | NULL    |                |
+| last_name  | varchar(50)  | YES  |     | NULL    |                |
+| telephone  | varchar(15)  | YES  |     | NULL    |                |
+| admin      | varchar(5)   | NO   |     | User    |                |
++------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> describe addressbook;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name      | varchar(80)  | NO   | MUL | NULL    |                |
+| surname   | varchar(80)  | YES  |     | NULL    |                |
+| number    | varchar(40)  | NO   | MUL | NULL    |                |
+| numberAlt | varchar(30)  | YES  |     | NULL    |                |
+| email     | varchar(100) | YES  |     | NULL    |                |
+| rx        | int(11)      | NO   |     | NULL    |                |
+| tx        | int(11)      | NO   |     | NULL    |                |
+| listOwner | varchar(30)  | YES  |     | NULL    |                |
+| list_1    | tinyint(1)   | NO   |     | 0       |                |
+| list_2    | tinyint(1)   | NO   |     | 0       |                |
+| list_3    | tinyint(1)   | NO   |     | 0       |                |
+| list_4    | tinyint(1)   | NO   |     | 0       |                |
++-----------+--------------+------+-----+---------+----------------+
+13 rows in set (0.01 sec)
+
+mysql> describe disconnected;
++-----------+------------------+------+-----+---------------------+----------------+
+| Field     | Type             | Null | Key | Default             | Extra          |
++-----------+------------------+------+-----+---------------------+----------------+
+| id        | int(11) unsigned | NO   | PRI | NULL                | auto_increment |
+| calldate  | datetime         | NO   | MUL | 0000-00-00 00:00:00 |                |
+| clid      | varchar(80)      | NO   |     |                     |                |
+| src       | varchar(80)      | NO   | MUL |                     |                |
+| lastdata  | varchar(80)      | NO   |     |                     |                |
+| userfield | varchar(255)     | NO   |     |                     |                |
++-----------+------------------+------+-----+---------------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> describe notifications;
++---------+-----------+------+-----+-------------------+----------------+
+| Field   | Type      | Null | Key | Default           | Extra          |
++---------+-----------+------+-----+-------------------+----------------+
+| id      | int(11)   | NO   | PRI | NULL              | auto_increment |
+| user_id | int(11)   | NO   |     | 0                 |                |
+| book_id | int(11)   | NO   |     | 0                 |                |
+| ntype   | char(10)  | YES  |     | NULL              |                |
+| ndate   | timestamp | NO   |     | CURRENT_TIMESTAMP |                |
++---------+-----------+------+-----+-------------------+----------------+
+5 rows in set (0.00 sec)

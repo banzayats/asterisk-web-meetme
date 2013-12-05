@@ -1,0 +1,180 @@
+-- Database: `meetme`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `booking`
+-- 
+-- connect meetme;
+
+DROP TABLE IF EXISTS `booking`;
+
+CREATE TABLE `booking` (
+  `bookId` int(10) unsigned NOT NULL auto_increment,
+  `clientId` int(10) unsigned default '0',
+  `confno` varchar(30) default '0',
+  `pin` varchar(30) NOT NULL default '0',
+  `adminpin` varchar(30) NOT NULL default '0',
+  `starttime` datetime NOT NULL default '0000-00-00 00:00:00',
+  `endtime` datetime NOT NULL default '0000-00-00 00:00:00',
+  `dateReq` datetime NOT NULL default '0000-00-00 00:00:00',
+  `dateMod` datetime NOT NULL default '0000-00-00 00:00:00',
+  `maxusers` varchar(30) NOT NULL default '10',
+  `status` varchar(30) NOT NULL default 'A',
+  `confOwner` varchar(30) NOT NULL default '',
+  `confDesc` varchar(100) NOT NULL default '',
+  `adminopts` varchar(10) NOT NULL default '',
+  `opts` varchar(10) NOT NULL default '',
+  `sequenceNo` int(10) unsigned default '0',
+  `recurInterval` int(10) unsigned default '0',
+  `recordingfilename` varchar(128) default NULL,
+  `members` varchar(11) NOT NULL default '0',
+  PRIMARY KEY  (`bookId`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=145 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `cdr`
+-- 
+
+DROP TABLE IF EXISTS `cdr`;
+
+CREATE TABLE `cdr` ( 
+`id` int(11) unsigned NOT NULL auto_increment,
+`calldate` datetime NOT NULL default '0000-00-00 00:00:00',
+`clid` varchar(80) NOT NULL default '',
+`src` varchar(80) NOT NULL default '',
+`dst` varchar(80) NOT NULL default '',
+`dcontext` varchar(80) NOT NULL default '',
+`channel` varchar(80) NOT NULL default '',
+`dstchannel` varchar(80) NOT NULL default '',
+`lastapp` varchar(80) NOT NULL default '',
+`lastdata` varchar(80) NOT NULL default '',
+`duration` int(11) NOT NULL default '0',
+`billsec` int(11) NOT NULL default '0',
+`disposition` varchar(45) NOT NULL default '',
+`amaflags` int(11) NOT NULL default '0',
+`accountcode` varchar(20) NOT NULL default '',
+`uniqueid` varchar(32) NOT NULL default '',
+`userfield` varchar(255) NOT NULL default ''
+PRIMARY KEY (`id`),
+KEY `calldate` (`calldate`),
+KEY `accountcode` (`accountcode`),
+KEY `uniqueid` (`uniqueid`),
+KEY `dst` (`dst`),
+KEY `src` (`src`),
+KEY `calldate_2` (`calldate`),
+KEY `uniqueid_2` (`uniqueid`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8 COLLATE=utf8_unicode_ci ;
+
+ALTER TABLE `cdr` ADD INDEX ( `calldate` ); 
+ALTER TABLE `cdr` ADD INDEX ( `uniqueid` ); 
+
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger comments_after_ins_trig after insert on cdr
+for each row
+begin
+ insert into disconnected (calldate, clid, src, lastdata, userfield) values (new.calldate, new.clid, new.src, new.lastdata, new.userfield);
+end */;;
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `disconnected` 
+--
+
+DROP TABLE IF EXISTS `disconnected`;
+
+CREATE TABLE `disconnected` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `calldate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `clid` varchar(80) NOT NULL DEFAULT '',
+  `src` varchar(80) NOT NULL DEFAULT '',
+  `lastdata` varchar(80) NOT NULL DEFAULT '',
+  `userfield` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `calldate` (`calldate`),
+  KEY `src` (`src`)
+) ENGINE=MyISAM AUTO_INCREMENT=483 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `notifications`
+-- 
+
+DROP TABLE IF EXISTS `notifications`;
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `book_id` int(11) NOT NULL default '0',
+  `ntype` char(10) default NULL,
+  `ndate` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `participants`
+-- 
+
+DROP TABLE IF EXISTS `participants`;
+
+CREATE TABLE `participants` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `book_id` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=782 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `user`
+-- 
+
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL auto_increment,
+  `email` varchar(100) NOT NULL default '',
+  `password` varchar(50) default NULL,
+  `first_name` varchar(50) default NULL,
+  `last_name` varchar(50) default NULL,
+  `telephone` varchar(15) default NULL,
+  `admin` varchar(5) NOT NULL default 'User',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `addressbook`
+-- 
+
+DROP TABLE IF EXISTS `addressbook`;
+
+CREATE TABLE `addressbook` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(80) NOT NULL,
+  `surname` varchar(80) DEFAULT NULL,
+  `number` varchar(40) NOT NULL,
+  `numberAlt` varchar(40) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `rx` int(11) NOT NULL,
+  `tx` int(11) NOT NULL,
+  `listOwner` varchar(30) DEFAULT NULL,
+  `list_1` tinyint(1) NOT NULL DEFAULT '0',
+  `list_2` tinyint(1) NOT NULL DEFAULT '0',
+  `list_3` tinyint(1) NOT NULL DEFAULT '0',
+  `list_4` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY  (`id`),
+  KEY `name` (`name`),
+  KEY `number` (`number`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+ALTER TABLE `addressbook` ADD INDEX ( `name` );
+ALTER TABLE `addressbook` ADD INDEX ( `number` );

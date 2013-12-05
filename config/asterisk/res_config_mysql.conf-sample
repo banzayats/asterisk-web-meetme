@@ -1,0 +1,6 @@
+[general]
+dbhost = 127.0.0.1
+dbname = meetme
+dbuser = meetmeuser
+dbpass = meetmepass
+dbport = 3306

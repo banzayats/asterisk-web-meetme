@@ -1,0 +1,12 @@
+[meetme_out]
+exten => _X.,1,NoOP( ${CALLERID(name)} ${CALLERID(num)} )
+exten => _X.,n,Dial(SIP/asterisk/${EXTEN})
+
+[meetme]
+exten => s,1,MeetMe()
+exten => h,1,ExecIf(0${MEETMEBOOKID}?NoOp(${CALLERID(name)}))
+exten => h,n,Set(CDR(userfield)=${MEETMEBOOKID})
+
+[inbound]
+exten => _X!,n,NoOP( ${CALLERID(name)} ${CALLERID(num)} )
+exten => _X!,n,Goto(meetme,s,1)
