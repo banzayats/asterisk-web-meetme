@@ -33,8 +33,8 @@ function conf_action(action, confno, user, channel, command)
 
 function togglePass()
 {
-        document.WMAdd.silPass.disabled = !document.WMAdd.silPass.disabled;
-        document.WMAdd.roomPass.disabled = !document.WMAdd.roomPass.disabled;
+        //document.WMAdd.silPass.disabled = !document.WMAdd.silPass.disabled;
+        //document.WMAdd.roomPass.disabled = !document.WMAdd.roomPass.disabled;
 }
 
 function addRowToTable(tableName)
@@ -232,8 +232,39 @@ else
  return false;
 }
 
+function getXmlHttp(){
+  var xmlhttp;
+  try {
+    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+  } catch (e) {
+    try {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } catch (E) {
+      xmlhttp = false;
+    }
+  }
+  if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+    xmlhttp = new XMLHttpRequest();
+  }
+  return xmlhttp;
+}
 
-// end.
+function call_add(nM,nU,rX,tX,cN,bI) {
+  var req = getXmlHttp();
+  var statusElem = document.getElementById(nU);
+  req.onreadystatechange = function() {
+    if (req.readyState == 4) {
+      statusElem.innerHTML = req.statusText;
+      if(req.status == 200) {
+        //  alert("Ответ сервера: "+req.responseText);
+      }
+    }
+  }
+  req.open('GET', 'call_operator_add.php?name='+nM+'&invite_num='+nU+'&action=quickcall&data='+cN+'&bookid='+bI+'&rx='+rX+'&tx='+tX, true);
+  req.send(null);
+  statusElem.innerHTML = 'Ожидание...';
+}
 
+// end
 //-->
 </script>

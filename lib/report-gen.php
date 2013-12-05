@@ -91,7 +91,7 @@ if ($max > 0){
         	$hpos += 24;
 	}
 } else {
-	imagestring($im, 10, ($im_width/3), ($im_height/2), "No Conferences Scheduled ", $red);
+	imagestring($im, 10, ($im_width/3), ($im_height/2), _("No Conferences Scheduled"), $red);
 }
 imagepng($im);
 imagedestroy($im);
