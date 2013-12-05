@@ -1,10 +1,11 @@
 <?php
 include ("./lib/defines.php");
 include ("./lib/functions.php");
-
 //include ("locale.php");
 
-getpost_ifset(array('confno','book'));
+getpost_ifset(array('confno','book','user','privilege'));
+$_SESSION['userid'] = $user;
+$_SESSION['privilege'] = $privilege;
 
 ?>
 
@@ -57,13 +58,13 @@ function getXmlHttp(){
 // javascript-код голосования из примера
 function call_add(nM,nU,rX,tX,cN,bI) {
 	// (1) создать объект для запроса к серверу
-	var req = getXmlHttp()  
+	var req = getXmlHttp()
        
         // (2)
 	// span рядом с кнопкой
 	// в нем будем отображать ход выполнения
 	var statusElem = document.getElementById(nU) 
-	
+
 	req.onreadystatechange = function() {  
         // onreadystatechange активируется при получении ответа сервера
 
@@ -72,21 +73,20 @@ function call_add(nM,nU,rX,tX,cN,bI) {
 
 			statusElem.innerHTML = req.statusText // показать статус (Not Found, ОК..)
 
-			if(req.status == 200) { 
+		if(req.status == 200) { 
                  // если статус 200 (ОК) - выдать ответ пользователю
-				alert("Ответ сервера: "+req.responseText);
+                 // Убрал чтобы не открывало много окон
+		//		alert("Ответ сервера: "+req.responseText);
 			}
 			// тут можно добавить else с обработкой ошибок запроса
 		}
-
 	}
 
        // (3) задать адрес подключения
-	req.open('GET', 'call_operator_add.php?name='+nM+'&invite_num='+nU+'&action=quickcall&data='+cN+'&bookid='+bI+'&rx='+rX+'&tx='+tX, true);  
+	req.open('GET', 'call_operator_add.php?name='+nM+'&invite_num='+nU+'&action=quickcall&data='+cN+'&bookid='+bI+'&rx='+rX+'&tx='+tX, true);
 
 	// объект запроса подготовлен: указан адрес и создана функция onreadystatechange
 	// для обработки ответа сервера
-	 
         // (4)
 	req.send(null);  // отослать запрос
   
@@ -96,16 +96,33 @@ function call_add(nM,nU,rX,tX,cN,bI) {
         //-->
         </script>
 
-
 </head>
 
 <body bgcolor="#acbdee">
 
 <?php 
 include ("./lib/database.php");
-include("./lib/addressbook.php"); 
+include("./lib/addressbook.php");
+
+echo "<form method = \"post\"><input type = \"submit\" name = \"button1\" value = \""._("Invite all")."\"><form>\n";
+
+$FG_CLAUSE = "WHERE listOwner='$user'";
+
+if ($listnum) {
+    $LIST = "AND list_$listnum=1";
+} else {
+    $LIST = "";
+}
+
+if($_POST['button1']) {
+    $query1 = "SELECT SQL_CALC_FOUND_ROWS `id`,`name`,`surname`,`number`,`rx`,`tx` FROM `addressbook` $FG_CLAUSE $LIST ORDER BY `name` ASC ";
+    $result1 = $db->query($query1);
+    while($row1 = $result1->fetchRow()) {
+        $row1[1] = iconv("cp1251","UTF-8",preg_replace("/[^\x30-\x39\x41-\x5A\x61-\x7A\x20\x5F\xC0-\xFF\xA8\xB8]/","",iconv("UTF-8","cp1251",$row1[1])));
+        $name = "$row1[1] $row1[2]";
+        echo "<script> call_add(\x27$name\x27,\x27$row1[3]\x27,$row1[4],$row1[5],$confno,$book);</script>";
+    }
+}
 ?>
-
-
 </body>
 </html>
