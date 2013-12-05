@@ -69,7 +69,7 @@ if ($add){
         		$conflict = $db->getOne("SELECT COUNT(*) FROM $FG_TABLE_NAME WHERE $FG_TABLE_CLAUSE");
 
 			if (!intval($conflict)){
-//      	        	  $userPass = md5($userPass);
+      	        	        $userPass = md5($userPass);
 				$data = array(NULL,$userEmail,$userPass,$fname,$lname,$phone,$userAdmin);
 				$query = "INSERT INTO $FG_TABLE_NAME VALUES (?,?,?,?,?,?,?)";
 				$result = $db->query($query, $data);
@@ -91,7 +91,7 @@ if (($update)){
 
         		if($userPass)
         		{
-//      	      		$userPass = md5($userPass);
+      	      			$userPass = md5($userPass);
 	            		$userPass = "$userPass";
         		}
 	        	if (intval($conflict) == 1){
@@ -149,12 +149,11 @@ if ($remove){
 	if (!strlen($Error)) { ?>
 		<center><strong> <?php print _("User Created"); ?>: </strong></center><br>
 		<center><?php print _("User Name"); ?>: <?php print $fname." ".$lname ?> <br></center>
-		<center><?php print _("User Password"); ?>:  <?php print $userPass ?> <br></center>
 		<center><?php print _("User Email"); ?>:  <?php print $userEmail ?> <br></center>
 		<center><?php print _("Is Admin"); ?>:  <?php print $isAdmin  ?><br></center>
 
 		<FORM METHOD=POST ACTION="./meetme_control.php?&s=3&t=1" target="_top">
-		<center><INPUT TYPE="Submit" VALUE="Continue"/></center>
+		<center><INPUT TYPE="Submit" VALUE="<?php print _("Continue") ?>"/></center>
 		</FORM>
 	<?php } else { ?>
 		<center><strong> <?php print $Error; ?> </strong></center>
@@ -165,7 +164,7 @@ if ($remove){
 
 <center><strong> <?php print _("User Deleted"); ?> </strong></center><br>
 <FORM METHOD=POST ACTION="./meetme_control.php?&s=3&t=1" target="_top">
-<center><INPUT TYPE="Submit" VALUE="Continue"/></center>
+<center><INPUT TYPE="Submit" VALUE="<?php print _("Continue") ?>"/></center>
 </FORM>
 
 <?php } ?>
