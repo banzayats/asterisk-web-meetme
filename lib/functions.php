@@ -52,6 +52,7 @@ function  checkEmail($email) {
 class userSec {
 
 	function authenticate($user,$password){
+		$user = strtolower($user);
 		switch (AUTH_TYPE) {
 			case "adLDAP":
                 		$adldap = new adLDAP();
