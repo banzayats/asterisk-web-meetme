@@ -22,7 +22,7 @@ $FG_TABLE_COL[]=array (_("ConfId"), "confno", "12%", "center", "", "19");
 $FG_TABLE_COL[]=array (_("Password"), "pin", "12%", "center", "", "30");
 $FG_TABLE_COL[]=array (_("starttime"), "starttime", "15%", "center", "", "30");
 $FG_TABLE_COL[]=array (_("endtime"), "endtime", "15%", "center", "", "30");
-$FG_TABLE_COL[]=array (_("Callers"), "maxUser", "12%", "center", "", "30","list", $mode_list);
+$FG_TABLE_COL[]=array (_("Callers"), "maxusers", "12%", "center", "", "30","list", $mode_list);
 
 $FG_TABLE_DEFAULT_ORDER = "UserName";
 $FG_TABLE_DEFAULT_SENS = "DESC";

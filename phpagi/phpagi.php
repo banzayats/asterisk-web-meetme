@@ -32,7 +32,7 @@
     require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'phpagi-asmanager.php');
   }
 
-  define('AST_CONFIG_DIR', '/etc/asterisk/meet1');
+  define('AST_CONFIG_DIR', '/etc/asterisk/');
   define('AST_SPOOL_DIR', '/var/spool/asterisk/');
   define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
   define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');

@@ -3,7 +3,7 @@
 include (dirname(__FILE__)."/../locale.php");
 
 //Email text
-function email_body($confDesc, $confOwner, $confno, $pin, $starttime, $endtime, $maxUser, $recurPrd, $encode)
+function email_body($confDesc, $confOwner, $confno, $pin, $starttime, $endtime, $maxusers, $recurPrd, $encode)
 {
 $starttime = strtotime($starttime);
 $endtime = strtotime($endtime);
@@ -29,7 +29,7 @@ if ($encode){
 	print rawurlencode(_("Conference Password").":      $pin \n");
 	print rawurlencode(_("Start Date and Time").":      $starttime \n");
 	print rawurlencode(_("End Date and Time").":        $endtime \n");
-	print rawurlencode(_("Participants").":             $maxUser \n");
+	print rawurlencode(_("Participants").":             $maxusers \n");
 	print rawurlencode(_("Recurrence Information").":   $recurPrd \n");
 	print rawurlencode("-------------------------------------------------- \n");
 	print rawurlencode(_("Dial In Info")." : \n");
@@ -45,7 +45,7 @@ else
 	print _("Conference Password").":      $pin \n";
 	print _("Start Date and Time").":      $starttime \n";
 	print _("End Date and Time").":        $endtime \n";
-	print _("Participants").":             $maxUser \n";
+	print _("Participants").":             $maxusers \n";
 	print _("Recurrence Information").":   $recurPrd \n";
 	print "-------------------------------------------------- \n";
 	print _("Dial In Info")." : \n";

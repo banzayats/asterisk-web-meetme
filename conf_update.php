@@ -22,7 +22,7 @@ $FG_TABLE_COL[]=array (_("Conference #"), "confno", "15%", "left", "", "10");
 $FG_TABLE_COL[]=array (_("Conference Name"), "pin", "25%", "left", "", "10");
 $FG_TABLE_COL[]=array (_("Starts"), "starttime", "20%", "left", "SORT", "30");
 $FG_TABLE_COL[]=array (_("Ends"), "endtime", "20%", "left", "", "30");
-$FG_TABLE_COL[]=array (_("Participants"), "maxUser", "10%", "left", "", "4");
+$FG_TABLE_COL[]=array (_("Participants"), "maxusers", "10%", "left", "", "4");
 
 
 
@@ -31,7 +31,7 @@ $FG_TABLE_DEFAULT_ORDER = "starttime";
 $FG_TABLE_DEFAULT_SENS = "DESC";
 
 // This Variable store the argument for the SQL query
-$FG_QUERY='confno, confDesc, starttime, endtime, maxUser, bookId, pin, confOwner, adminpin, adminopts, opts';
+$FG_QUERY='confno, confDesc, starttime, endtime, maxusers, bookId, pin, confOwner, adminpin, adminopts, opts';
 $CDR_QUERY='bookId';
 
 // The variable LIMITE_DISPLAY define the limit of record to display by page

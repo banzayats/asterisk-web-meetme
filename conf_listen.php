@@ -30,7 +30,7 @@ $FG_TABLE_DEFAULT_ORDER = "starttime";
 $FG_TABLE_DEFAULT_SENS = "DESC";
 
 // This Variable store the argument for the SQL query
-$FG_COL_QUERY='confno, confDesc, starttime, endtime, maxUser, bookId, pin, confOwner, adminpin, adminopts, opts';
+$FG_COL_QUERY='confno, confDesc, starttime, endtime, maxusers, bookId, pin, confOwner, adminpin, adminopts, opts';
 
 
 // The variable LIMITE_DISPLAY define the limit of record to display by page
