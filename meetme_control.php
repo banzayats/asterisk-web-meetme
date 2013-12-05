@@ -4,6 +4,12 @@ include ("./lib/functions.php");
 include ("./lib/database.php");
 include ("locale.php");
 
+if ($locale != 'en_US') {
+    $button_search = $locale."_button-search.gif";
+} else {
+    $button_search = "button-search.gif";
+}
+
 $s = '';
 $t = '';
 $logoff_section='';
@@ -122,7 +128,7 @@ getpost_ifset(array('confno','book')); ?>
 		<td class="bar-search" align="left" bgcolor="#555577"> </td>
 
 			<td class="bar-search" align="center" bgcolor="#cddeff">
-				<input type="image"  name="image16" align="top" border="0" src="images/button-search.gif" />
+				<input type="image"  name="image16" align="top" border="0" src="images/<?php print $button_search ?>" />
 
 			</td>
 	</tr>
@@ -618,7 +624,7 @@ document.WMAdd.confDesc.focus()
 		<td class="bar-search" align="left" bgcolor="#555577"> </td>
 
 			<td class="bar-search" align="center" bgcolor="#cddeff">
-				<input type="image"  name="image16" align="top" border="0" src="images/button-search.gif" />
+				<input type="image"  name="image16" align="top" border="0" src="images/<?php print $button_search ?>" />
 
 			</td>
 	</tr>
@@ -662,7 +668,7 @@ document.WMDel.confno.focus()
 		<td class="bar-search" align="left" bgcolor="#555577"> </td>
 
 			<td class="bar-search" align="center" bgcolor="#cddeff">
-				<input type="image"  name="image16" align="top" border="0" src="images/button-search.gif" />
+				<input type="image"  name="image16" align="top" border="0" src="images/<?php print $button_search ?>" />
 
 			</td>
 	</tr>
@@ -710,7 +716,7 @@ document.WMDel.confno.focus()
 		<td class="bar-search" align="left" bgcolor="#555577"> </td>
 
 			<td class="bar-search" align="center" bgcolor="#cddeff">
-				<input type="image"  name="image16" align="top" border="0" src="images/button-search.gif" />
+				<input type="image"  name="image16" align="top" border="0" src="images/<?php print $button_search ?>" />
 
 			</td>
 	</tr>
