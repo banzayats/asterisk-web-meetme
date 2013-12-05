@@ -16,7 +16,7 @@ if ( !isset($mode_list))
 	$mode_list = "";
 $recur = 0;
 
-getpost_ifset(array('confno','pin','adminpin','confOwner','confDesc','Hour','Min','month','day','year','AMPM','ConfHour','ConfMin','confdate','maxUser','add','bookId','update','recur','recurLbl','recurPrd','adminopts','opts','updateSeries','Extend'));
+getpost_ifset(array('confno','pin','adminpin','confOwner','confDesc','Hour','Min','month','day','year','AMPM','ConfHour','ConfMin','confdate','maxusers','add','bookId','update','recur','recurLbl','recurPrd','adminopts','opts','updateSeries','Extend'));
 getpost_ifset(array('fname', 'lname', 'email', 'phone', 'nopass'));
 // this variable specifie the debug type (0 => nothing, 1 => sql result, 2 => boucle checking, 3 other value checking)
 $FG_DEBUG = 0;
@@ -34,7 +34,7 @@ $FG_TABLE_COL[]=array (_("ConfId"), "confno", "12%", "center", "", "19");
 $FG_TABLE_COL[]=array (_("Password"), "pin", "12%", "center", "", "30");
 $FG_TABLE_COL[]=array (_("starttime"), "starttime", "15%", "center", "", "30");
 $FG_TABLE_COL[]=array (_("endtime"), "endtime", "15%", "center", "", "30");
-$FG_TABLE_COL[]=array (_("Callers"), "maxUser", "12%", "center", "", "30","list", $mode_list);
+$FG_TABLE_COL[]=array (_("Callers"), "maxusers", "12%", "center", "", "30","list", $mode_list);
 
 
 
@@ -42,7 +42,7 @@ $FG_TABLE_DEFAULT_ORDER = "bookId";
 $FG_TABLE_DEFAULT_SENS = "DESC";
 
 // This Variable store the argument for the SQL query
-$FG_COL_QUERY='bookId, clientId, confno, pin, adminpin, starttime, endtime, dateReq, maxUser, confOwner, confDesc, adminopts, opts, sequenceNo, recurInterval';
+$FG_COL_QUERY='bookId, clientId, confno, pin, adminpin, starttime, endtime, dateReq, maxusers, confOwner, confDesc, adminopts, opts, sequenceNo, recurInterval';
 
 
 // The variable LIMITE_DISPLAY define the limit of record to display by page
@@ -163,17 +163,17 @@ if (isset($add)){
 			$error = _("Moderator PIN required if  'Wait for Leader is set'");
 
 	}
-	if((intval($maxUser) < 2))
+	if((intval($maxusers) < 2))
 		$error = _("You must reserve at least 2 seats in this conference");
 
 	if(defined('MAX_CALLER_LIMT')) {
 		$FG_TABLE_CLAUSE="((starttime<='$starttime' AND endtime>='$starttime') OR (starttime<='$starttime' AND endtime>='$endtime') OR (starttime>='$starttime' AND endtime<='$endtime') OR (starttime<='$endtime' AND endtime>='$endtime'))";
 
-		$prev_seats = $db->getOne("SELECT maxUser FROM $FG_TABLE_NAME WHERE confno='$confno' AND bookid='$bookid'");
-		$used_seats = $db->getOne("SELECT SUM(maxUser) FROM $FG_TABLE_NAME WHERE $FG_TABLE_CLAUSE");
+		$prev_seats = $db->getOne("SELECT maxusers FROM $FG_TABLE_NAME WHERE confno='$confno' AND bookid='$bookid'");
+		$used_seats = $db->getOne("SELECT SUM(maxusers) FROM $FG_TABLE_NAME WHERE $FG_TABLE_CLAUSE");
 
-		if( (intval($maxUser) + intval($used_seats) - intval($prev_seats)) > MAX_CALLER_LIMT)
-			$error = "The requested number of participents, ". $maxUser .", would exceed the system limit of: " . MAX_CALLER_LIMT . " , for this time period. <br>" . (intval(MAX_CALLER_LIMT) - $used_seats) . " seats are available.";
+		if( (intval($maxusers) + intval($used_seats) - intval($prev_seats)) > MAX_CALLER_LIMT)
+			$error = "The requested number of participents, ". $maxusers .", would exceed the system limit of: " . MAX_CALLER_LIMT . " , for this time period. <br>" . (intval(MAX_CALLER_LIMT) - $used_seats) . " seats are available.";
 	}
 
 	$FG_TABLE_CLAUSE="confno='$confno' AND ((starttime<='$starttime' AND endtime>='$starttime') OR (starttime<='$starttime' AND endtime>='$endtime') OR (starttime>='$starttime' AND endtime<='$endtime') OR (starttime<='$endtime' AND endtime>='$endtime'))";
@@ -226,11 +226,11 @@ if (isset($add)){
 	
 	   for ($i=0; $i < intval($recurPrd); $i++){
 		if ($clientId){
-        		$param_columns ="clientId,confno,pin,adminpin,starttime,endtime,dateReq,dateMod,maxUser,status,confOwner,confDesc,adminopts,opts,sequenceNo,recurInterval"; 
-        		$param_update ="'$clientId','$confno','$pin','$adminpin','$starttime','$endtime','$dateReq','$dateMod','$maxUser','$status','$confOwner','$confDesc','$adminopts','$opts','$i','$recurInt'"; 
+        		$param_columns ="clientId,confno,pin,adminpin,starttime,endtime,dateReq,dateMod,maxusers,status,confOwner,confDesc,adminopts,opts,sequenceNo,recurInterval"; 
+        		$param_update ="'$clientId','$confno','$pin','$adminpin','$starttime','$endtime','$dateReq','$dateMod','$maxusers','$status','$confOwner','$confDesc','$adminopts','$opts','$i','$recurInt'"; 
 		} else {
-        		$param_columns ="confno,pin,adminpin,starttime,endtime,dateReq,dateMod,maxUser,status,confOwner,confDesc,adminopts,opts,sequenceNo,recurInterval"; 
-        		$param_update ="'$confno','$pin','$adminpin','$starttime','$endtime','$dateReq','$dateMod','$maxUser','$status','$confOwner','$confDesc','$adminopts','$opts','$i','$recurInt'"; 
+        		$param_columns ="confno,pin,adminpin,starttime,endtime,dateReq,dateMod,maxusers,status,confOwner,confDesc,adminopts,opts,sequenceNo,recurInterval"; 
+        		$param_update ="'$confno','$pin','$adminpin','$starttime','$endtime','$dateReq','$dateMod','$maxusers','$status','$confOwner','$confDesc','$adminopts','$opts','$i','$recurInt'"; 
 
 		}
 		$query = "INSERT INTO $FG_TABLE_NAME($param_columns) VALUES ($param_update)";
@@ -409,7 +409,7 @@ if (isset($update)){
 			$error = _("Moderator PIN required if  'Wait for Leader is set'");
 	}
 
-	if((intval($maxUser) < 2))
+	if((intval($maxusers) < 2))
 		$error = _("You must reserve at least 2 seats in this conference");
 
 
@@ -460,9 +460,9 @@ if (isset($update)){
 			
 			if (strchr($opts, "r") || strchr($adminopts, "r")) {
 				$recordingfilename = RECORDING_PATH . "meetme-conf-rec-". $confno . "-" . $bookId;
-        			$param_update ="confno='$confno',pin='$pin',adminpin='$adminpin', starttime='$starttime', endtime='$endtime', maxUser='$maxUser', confOwner='$confOwner', confDesc='$confDesc', adminopts='$adminopts', opts='$opts', recordingfilename='$recordingfilename'"; 
+        			$param_update ="confno='$confno',pin='$pin',adminpin='$adminpin', starttime='$starttime', endtime='$endtime', maxusers='$maxusers', confOwner='$confOwner', confDesc='$confDesc', adminopts='$adminopts', opts='$opts', recordingfilename='$recordingfilename'"; 
 			} else {
-        			$param_update ="confno='$confno',pin='$pin',adminpin='$adminpin', starttime='$starttime', endtime='$endtime', maxUser='$maxUser', confOwner='$confOwner', confDesc='$confDesc', adminopts='$adminopts', opts='$opts'"; 
+        			$param_update ="confno='$confno',pin='$pin',adminpin='$adminpin', starttime='$starttime', endtime='$endtime', maxusers='$maxusers', confOwner='$confOwner', confDesc='$confDesc', adminopts='$adminopts', opts='$opts'"; 
 			}
 			$query = "UPDATE $FG_TABLE_NAME SET $param_update WHERE $FG_EDITION_CLAUSE";
 			$result = $db->query($query);
@@ -673,11 +673,11 @@ function ClientMailer()
 		else
 		{
 		?>
-			<input type=hidden id="_Body" value="<?php email_body($confDesc, $confOwner, $confno, $pin, $starttime, $endtime, $maxUser, $recurPrd, TRUE); ?>">
+			<input type=hidden id="_Body" value="<?php email_body($confDesc, $confOwner, $confno, $pin, $starttime, $endtime, $maxusers, $recurPrd, TRUE); ?>">
 			<textarea rows=18 cols=52 readonly>
 		<?php
 		}
-		email_body($confDesc, $confOwner, $confno, $pin, $starttime, $endtime, $maxUser, $recurPrd, FALSE);?></textarea>
+		email_body($confDesc, $confOwner, $confno, $pin, $starttime, $endtime, $maxusers, $recurPrd, FALSE);?></textarea>
 		</td>
                 </tr>
                 <tr>
