@@ -89,17 +89,21 @@ if ($section=="section0" || $section=="section2"){?>
 getpost_ifset(array('confno','book')); ?>
 <!-- ** ** ** ** ** Part to select the conference ** ** ** ** ** -->
 &nbsp;
-        <script>
+    <script>
         function out_call(cN, bI) {
             window.open ('out_call.php?confno='+cN+'&book='+bI, 'newWin', 'toolbar=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,width=420,height=150')
         }
-        </script>
-        <script>
+    </script>
+    <script>
         function out_call_book(cN, bI, uI, pr) {
             window.open ('out_call_book.php?confno='+cN+'&book='+bI+'&user='+uI+'&privilege='+pr, 'newWinAdd', 'toolbar=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=820,height=600')
         }
-        </script>
-
+    </script>
+    <script>
+        function upload_list(cN, bI) {
+            window.open ('upload_file.php?s=1&confno='+cN+'&book='+bI, 'newWinAdd', 'toolbar=no,directories=no,status=no,scrollbars=yes,menubar=no,width=900,height=800')
+        }
+    </script>
 <br/>
 <center><?php print _("Select the room number that you want to handle"); ?>
 <FORM METHOD=POST NAME="WMMon" ACTION="conf_control.php?s=1&t=0&order=<?php echo "$order&sens=$sens&current_page=$current_page&PHPSESSID=$PHPSESSID"; ?>" target="superframe">
@@ -145,15 +149,23 @@ getpost_ifset(array('confno','book')); ?>
             </form>
         </td>
         <td>
-            <input type="Submit" name="Invite" onClick="out_call(<?php echo $confno.", ".$book;?>)" align="top" border="0" value="<?php echo _("Invite participants");?>" />
+            <form METHOD=POST ACTION="meetme_control.php?s=1&t=0&confno=<?php echo $confno;?>&book=<?php echo $book;?>" target="superframe">
+                <input type="Submit" name="Invite" onClick="out_call(<?php echo $confno.", ".$book;?>)" align="top" border="0" value="<?php echo _("Invite participants");?>" />
+            </form>
         </td>
         <td>
-            <input type="Submit" name="Invite_book" onClick="out_call_book(<?php echo $confno.", ".$book.", '".$_SESSION['userid']."'".", '".$_SESSION['privilege']."'";?>)" align="top" border="0" value="<?php echo _("Invite participants from list");?>" />
+            <form METHOD=POST ACTION="meetme_control.php?s=1&t=0&confno=<?php echo $confno;?>&book=<?php echo $book;?>" target="superframe">
+                <input type="Submit" name="Invite_book" onClick="out_call_book(<?php echo $confno.", ".$book.", '".$_SESSION['userid']."'".", '".$_SESSION['privilege']."'";?>)" align="top" border="0" value="<?php echo _("Invite participants from list");?>" />
+            </form>
+        </td>
+        <td>
+            <form METHOD=POST ACTION="meetme_control.php?s=1&t=0&confno=<?php echo $confno;?>&book=<?php echo $book;?>" target="superframe">
+                <input type="Submit" name="Upload" onClick="upload_list(<?php echo $confno.", ".$book;?>)" align="top" border="0" value="<?php echo _("Upload list");?>"" />
+            </form>
         </td>
     </tr>
 </table>
 </center>
- 
 
 <script language="javascript">
 <!--
@@ -175,52 +187,46 @@ document.WMMon.confno.focus()
 
 
 <center>
-<iframe name="superframe" src="<?php echo "call_operator.php?atmenu=operator&stitle=Make+Outbound+Call";?>" BGCOLOR=white      width=750 height=450 marginWidth=0 marginHeight=0  frameBorder=0  scrolling=auto>
-
+<iframe name="superframe" id="superframe" src="<?php echo "call_operator.php?atmenu=operator&stitle=Make+Outbound+Call";?>" BGCOLOR=white      width=750 height=450 marginWidth=0 marginHeight=0  frameBorder=0  scrolling=auto>
 </iframe>
 </center>
 
-
 <?php }elseif ($section=="section20"){?>
-	<script>
-	<!-- Begin
-	function monthPop(objForm,selectIndex) {
-	timeA = new Date(objForm.year.options[objForm.year.selectedIndex].text, objForm.month.options[objForm.month.selectedIndex].value,1);
-	timeDifference = timeA - 86400000;
-	timeB = new Date(timeDifference);
-	var daysInMonth = timeB.getDate();
+<script>
+    function monthPop(objForm,selectIndex) {
+        timeA = new Date(objForm.year.options[objForm.year.selectedIndex].text, objForm.month.options[objForm.month.selectedIndex].value,1);
+        timeDifference = timeA - 86400000;
+        timeB = new Date(timeDifference);
+        var daysInMonth = timeB.getDate();
 
-	for (var i = 0; i < objForm.day.length; i++) {
-		objForm.day.options[0] = null;
-	}
-	for (var i = 0; i < daysInMonth; i++) {
-		objForm.day.options[i] = new Option(i+1);
-	}
-	document.WMAdd.day.options[0].selected = true;
-	}
-	
-	function recurPop(objForm,selectIndex){
-	var recurPrd = (objForm.recurLbl.options[objForm.recurLbl.selectedIndex].value);
-	for (var i = 0; i <= 26 ; i++){
-		objForm.recurPrd.options[i] = null;
-	}
-	for (var i = 0; i <= (recurPrd-2); i++) {
-		if (recurPrd == 14){
-			objForm.recurPrd.options[i] = new Option((i+2)+ <?php print "\" "._("days")."\""; ?>, (i+2));
-		} else {
-		if (recurPrd == 26){
-			objForm.recurPrd.options[i] = new Option((i+2)+ <?php print "\" "._("weeks")."\""; ?>, (i+2));
-		} else {
-			objForm.recurPrd.options[i] = new Option(((i+1)*2)+ <?php print "\" "._("weeks")."\""; ?>, (i+2));
-		}		
-		}
-	}
-		document.WMAdd.recurPrd.options[0].selected = true;	
-	}
+        for (var i = 0; i < objForm.day.length; i++) {
+            objForm.day.options[0] = null;
+        }
+        for (var i = 0; i < daysInMonth; i++) {
+            objForm.day.options[i] = new Option(i+1);
+        }
+        document.WMAdd.day.options[0].selected = true;
+    }
 
-	//  End -->
-	</script>
-
+    function recurPop(objForm,selectIndex){
+        var recurPrd = (objForm.recurLbl.options[objForm.recurLbl.selectedIndex].value);
+        for (var i = 0; i <= 26 ; i++){
+            objForm.recurPrd.options[i] = null;
+        }
+        for (var i = 0; i <= (recurPrd-2); i++) {
+            if (recurPrd == 14){
+                objForm.recurPrd.options[i] = new Option((i+2)+ <?php print "\" "._("days")."\""; ?>, (i+2));
+            } else {
+                if (recurPrd == 26){
+                    objForm.recurPrd.options[i] = new Option((i+2)+ <?php print "\" "._("weeks")."\""; ?>, (i+2));
+                } else {
+                    objForm.recurPrd.options[i] = new Option(((i+1)*2)+ <?php print "\" "._("weeks")."\""; ?>, (i+2));
+                }
+            }
+        }
+        document.WMAdd.recurPrd.options[0].selected = true;	
+    }
+</script>
 <!-- ** ** ** ** ** Part to add the conference ** ** ** ** ** -->
 &nbsp;
 <br/>
